@@ -96,6 +96,7 @@ from ..toggles import split_library_view_on_dashboard
 from ..utils import (
     add_instructor,
     get_lms_link_for_item,
+    get_pages_and_resources_url,
     get_proctored_exam_settings_url,
     initialize_permissions,
     remove_all_instructors,
@@ -727,6 +728,7 @@ def course_index(request, course_key):
             'mfe_proctored_exam_settings_url': get_proctored_exam_settings_url(course_module.id),
             'advance_settings_url': reverse_course_url('advanced_settings_handler', course_module.id),
             'proctoring_errors': proctoring_errors,
+            'pages_and_resources_mfe_link': get_pages_and_resources_url(course_key),
         })
 
 
