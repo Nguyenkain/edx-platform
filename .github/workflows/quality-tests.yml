@@ -67,7 +67,7 @@ jobs:
         SHARD: ${{ matrix.shard }}
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
-        ./scripts/all-tests.sh
+        ./scripts/xss-commit-linter.sh
 
     - name: Save Job Artifacts
       uses: actions/upload-artifact@v2
