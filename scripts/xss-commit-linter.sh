@@ -85,19 +85,25 @@ fi
 echo "past second category"
 
 merge_base_command="git merge-base $current_branch_hash $MAIN_COMMIT"
+echo merge_base_command
 merge_base=$(${merge_base_command})
+echo merge_base
 diff_command="git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash"
+echo diff_command
 diff_files=$(${diff_command})
+echo diff_files
 
 echo "past second category"
 
 if [ "$diff_files" = "" ]; then
     # When no files are found, automatically display verbose details to help
     # understand why.
+    echo "past if"
     show_verbose
     echo ""
     echo "No files linted."
 else
+    echo "past else"
     if [ ${VERBOSE} ] ; then
         show_verbose
     fi
