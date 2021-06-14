@@ -68,7 +68,10 @@ jobs:
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
         current_branch_hash=`git rev-parse HEAD`
+        echo "Rev Parse Calculation"
         echo $current_branch_hash
+        echo "SHA Github Gives"
+        echo $GITHUB_SHA
         merge_base_command="git merge-base $current_branch_hash origin/master"
         echo $merge_base_command
         eval $merge_base_command
