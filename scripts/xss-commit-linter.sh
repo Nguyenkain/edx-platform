@@ -63,6 +63,10 @@ echo "past first category"
 
 current_branch_hash=`git rev-parse HEAD`
 
+echo "past main commit"
+echo "${MAIN_COMMIT+x}"
+echo "past target branch"
+echo ""${TARGET_BRANCH+x}"
 echo $current_branch_hash
 
 if [ -z "${MAIN_COMMIT+x}" ]; then
