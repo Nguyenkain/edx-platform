@@ -67,13 +67,14 @@ jobs:
         SHARD: ${{ matrix.shard }}
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
-        ./scripts/xss-commit-linter.sh
+        ./scripts/xss-commit-linter.sh | tee xss_test.report.log
 
     - name: Save Job Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Build-Artifacts
         path: |
+          *.report.log
           **/reports/**/*
           test_root/log/**/*.log
           *.log
