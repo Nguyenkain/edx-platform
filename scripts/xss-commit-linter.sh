@@ -82,6 +82,8 @@ if [ -z "${MAIN_COMMIT+x}" ]; then
     fi
 fi
 
+echo "past second category"
+
 merge_base_command="git merge-base $current_branch_hash $MAIN_COMMIT"
 merge_base=$(${merge_base_command})
 diff_command="git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash"
