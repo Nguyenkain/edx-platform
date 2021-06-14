@@ -85,13 +85,13 @@ fi
 echo "past second category"
 
 merge_base_command="git merge-base $current_branch_hash $MAIN_COMMIT"
-echo merge_base_command
+echo $merge_base_command
 merge_base=$(${merge_base_command})
-echo merge_base
+echo $merge_base
 diff_command="git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash"
-echo diff_command
+echo $diff_command
 diff_files=$(${diff_command})
-echo diff_files
+echo $diff_files
 
 echo "past second category"
 
