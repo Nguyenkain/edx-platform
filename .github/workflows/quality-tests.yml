@@ -68,6 +68,7 @@ jobs:
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
         ./scripts/xss-commit-linter.sh | tee xss_test.report.log
+      shell: bash
 
     - name: Save Job Artifacts
       uses: actions/upload-artifact@v2
