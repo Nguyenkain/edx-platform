@@ -71,10 +71,9 @@ jobs:
         echo $current_branch_hash
         merge_base_command="git merge-base $current_branch_hash origin/master"
         echo $merge_base_command
-        merge_base=${merge_base_command}
+        merge_base=$(eval $merge_base_command)
         echo $merge_base
         git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash
-      shell: bash
 
     - name: Save Job Artifacts
       uses: actions/upload-artifact@v2
