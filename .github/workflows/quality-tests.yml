@@ -24,7 +24,6 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 2
-    - run: git checkout HEAD^
 
     - name: Fetch master to compare coverage
       run: git fetch --depth=1 origin master
