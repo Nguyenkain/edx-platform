@@ -55,9 +55,7 @@ from common.djangoapps.student.roles import (
     GlobalStaff,
     OrgInstructorRole,
     OrgStaffRole,
-    SupportStaffRole,
-    OrgDataResearcherRole,
-    CourseDataResearcherRole
+    SupportStaffRole
 )
 from common.djangoapps.util import milestones_helpers as milestones_helpers  # lint-amnesty, pylint: disable=useless-import-alias
 from common.djangoapps.util.milestones_helpers import (
@@ -749,8 +747,7 @@ def _has_access_to_course(user, access_level, course_key):
     if is_masquerading_as_student(user, course_key):
         return ACCESS_DENIED
 
-    global_staff, staff_access, instructor_access, data_researcher_access = \
-        administrative_accesses_to_course_for_user(user, course_key)
+    global_staff, staff_access, instructor_access = administrative_accesses_to_course_for_user(user, course_key)
     if global_staff:
         debug("Allow: user.is_staff")
         return ACCESS_GRANTED
@@ -765,10 +762,6 @@ def _has_access_to_course(user, access_level, course_key):
         return ACCESS_GRANTED
 
     if instructor_access and access_level in ('staff', 'instructor'):
-        debug("Allow: user has course instructor access")
-        return ACCESS_GRANTED
-
-    if data_researcher_access and access_level in ('staff', 'instructor'):
         debug("Allow: user has course instructor access")
         return ACCESS_GRANTED
 
@@ -791,12 +784,8 @@ def administrative_accesses_to_course_for_user(user, course_key):
         CourseInstructorRole(course_key).has_user(user) or
         OrgInstructorRole(course_key.org).has_user(user)
     )
-    data_researcher_access = (
-        CourseDataResearcherRole(course_key).has_user(user) or
-        OrgDataResearcherRole(course_key.org).has_user(user)
-    )
 
-    return global_staff, staff_access, instructor_access, data_researcher_access
+    return global_staff, staff_access, instructor_access
 
 
 @function_trace('_has_instructor_access_to_descriptor')

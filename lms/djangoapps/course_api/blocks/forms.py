@@ -135,9 +135,10 @@ class BlockListGetForm(Form):
         if requested_username is None and not all_blocks:
             raise ValidationError({'username': ["This field is required unless all_blocks is requested."]})
 
+        if  requesting_user.has_perm('instructor.research', course_key):
+            return  requesting_user
         if requesting_user.is_anonymous:
             return self._verify_anonymous_user(requested_username, course_key, all_blocks)
-
         if all_blocks:
             return self._verify_all_blocks(requesting_user, course_key)
         elif requesting_user.username.lower() == requested_username.lower():
