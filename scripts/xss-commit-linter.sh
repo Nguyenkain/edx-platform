@@ -83,6 +83,8 @@ merge_base=$(${merge_base_command})
 diff_command="git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash"
 diff_files=$(${diff_command})
 
+echo "past second category"
+
 if [ "$diff_files" = "" ]; then
     # When no files are found, automatically display verbose details to help
     # understand why.
