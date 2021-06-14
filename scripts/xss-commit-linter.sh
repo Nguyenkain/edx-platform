@@ -40,6 +40,8 @@ show_verbose() {
 
 }
 
+echo "here in tests"
+
 for i in "$@"; do
     case $i in
         -m=*|--main-branch=*)
@@ -57,7 +59,11 @@ for i in "$@"; do
     esac
 done
 
+echo "past first category"
+
 current_branch_hash=`git rev-parse HEAD`
+
+echo $current_branch_hash
 
 if [ -z "${MAIN_COMMIT+x}" ]; then
     if [ -z ${TARGET_BRANCH+x} ]; then
