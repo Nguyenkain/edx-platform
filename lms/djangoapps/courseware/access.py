@@ -748,6 +748,7 @@ def _has_access_to_course(user, access_level, course_key):
         return ACCESS_DENIED
 
     global_staff, staff_access, instructor_access = administrative_accesses_to_course_for_user(user, course_key)
+
     if global_staff:
         debug("Allow: user.is_staff")
         return ACCESS_GRANTED
