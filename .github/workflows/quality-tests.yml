@@ -68,10 +68,12 @@ jobs:
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
         current_branch_hash=`git rev-parse HEAD`
+        echo $current_branch_hash
         merge_base_command="git merge-base $current_branch_hash origin/master"
+        echo $merge_base_command
         merge_base=$(${merge_base_command})
-        git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash"
-        ./scripts/xss-commit-linter.sh --verbose
+        echo $merge_base
+        git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash
       shell: bash
 
     - name: Save Job Artifacts
