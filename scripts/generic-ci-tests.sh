@@ -119,6 +119,10 @@ case "$TEST_SUITE" in
                 ;;
 
             4)
+                # Moving here to for fast testing, remove after done
+                run_paver_quality run_xsscommitlint || { EXIT=1; }
+                echo "Running PII checker on all Django models..."
+
                 echo "Finding fixme's and storing report..."
                 run_paver_quality find_fixme || { EXIT=1; }
                 echo "Finding pycodestyle violations and storing report..."

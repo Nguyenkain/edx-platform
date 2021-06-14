@@ -518,12 +518,10 @@ def run_xsscommitlint():
     _prepare_report_dir(xsscommitlint_report_dir)
 
     sh(
-        "{repo_root}/scripts/{xsscommitlint_script} | tee {xsscommitlint_report}".format(
+        "{repo_root}/scripts/{xsscommitlint_script}".format(
             repo_root=Env.REPO_ROOT,
-            xsscommitlint_script=xsscommitlint_script,
-            xsscommitlint_report=xsscommitlint_report,
-        ),
-        ignore_error=True
+            xsscommitlint_script=xsscommitlint_script
+        )
     )
 
     xsscommitlint_count = _get_xsscommitlint_count(xsscommitlint_report)
