@@ -67,7 +67,7 @@ jobs:
         SHARD: ${{ matrix.shard }}
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
-        ./scripts/xss-commit-linter.sh
+        ./scripts/xss-commit-linter.sh --verbose
       shell: bash
 
     - name: Save Job Artifacts
