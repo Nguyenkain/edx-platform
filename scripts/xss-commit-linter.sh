@@ -93,7 +93,7 @@ echo $diff_command
 diff_files=$(${diff_command})
 echo $diff_files
 
-echo "past second category"
+echo "past third category"
 
 if [ "$diff_files" = "" ]; then
     # When no files are found, automatically display verbose details to help

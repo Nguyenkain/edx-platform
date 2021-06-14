@@ -67,6 +67,10 @@ jobs:
         SHARD: ${{ matrix.shard }}
         PIP_SRC_DIR: ${{ runner.temp }}
       run: |
+        current_branch_hash=`git rev-parse HEAD`
+        merge_base_command="git merge-base $current_branch_hash origin/master"
+        merge_base=$(${merge_base_command})
+        git diff --name-only --diff-filter=ACM $merge_base $current_branch_hash"
         ./scripts/xss-commit-linter.sh --verbose
       shell: bash
 
