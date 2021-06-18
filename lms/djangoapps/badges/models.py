@@ -22,7 +22,9 @@ from opaque_keys.edx.keys import CourseKey
 from lms.djangoapps.badges.utils import deserialize_count_specs
 from openedx.core.djangolib.markup import HTML, Text
 from xmodule.modulestore.django import modulestore
+import logging
 
+log = logging.getLogger(__name__)
 
 def validate_badge_image(image):
     """
@@ -126,10 +128,20 @@ class BadgeClass(models.Model):
         """
         return self.badgeassertion_set.filter(user=user)
 
-    def award(self, user, evidence_url=None):
+    def award(self, user, evidence_url=settings.LMS_ROOT_URL):
+        log.info('===========')
+        log.info('BADGE AWARD')
+        log.info('===========')
         """
         Contacts the backend to have a badge assertion created for this badge class for this user.
         """
+        log.info('===========')
+        log.info('BADGE BADGR_USERNAME: %s', settings.BADGR_USERNAME)
+        log.info('BADGE BADGR_PASSWORD: %s', settings.BADGR_PASSWORD)
+        log.info('BADGE BADGR_TOKENS_CACHE_KEY: %s', settings.BADGR_TOKENS_CACHE_KEY)
+        log.info('BADGE BADGR_ISSUER_SLUG: %s', settings.BADGR_ISSUER_SLUG)
+        log.info('BADGE BADGR_BASE_URL: %s', settings.BADGR_BASE_URL)
+        log.info('===========')
         return self.backend.award(self, user, evidence_url=evidence_url)  # lint-amnesty, pylint: disable=no-member
 
     def save(self, **kwargs):  # lint-amnesty, pylint: disable=arguments-differ

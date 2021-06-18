@@ -108,6 +108,8 @@ class BadgrBackend(BadgeBackend):
         """
         Create the badge class on Badgr.
         """
+        LOGGER.info('===========')
+        LOGGER.info('BADGE CREATE BADGE')
         image = badge_class.image
         # We don't want to bother validating the file any further than making sure we can detect its MIME type,
         # for HTTP. The Badgr-Server should tell us if there's anything in particular wrong with it.
@@ -117,6 +119,7 @@ class BadgrBackend(BadgeBackend):
                 "Could not determine content-type of image! Make sure it is a properly named .png file. "
                 "Filename was: {}".format(image.name)
             )
+        LOGGER.info('BADGE CREATE BADGE IMAGE: %s', image)
         with open(image.path, 'rb') as image_file:
             files = {'image': (image.name, image_file, content_type)}
             data = {
@@ -127,6 +130,9 @@ class BadgrBackend(BadgeBackend):
             result = requests.post(
                 self._badge_create_url, headers=self._get_headers(),
                 data=data, files=files, timeout=settings.BADGR_TIMEOUT)
+            LOGGER.info('BADGE CREATE BADGE DATA: %s', data)
+            LOGGER.info('BADGE CREATE BADGE RESULT: %s', result.json())
+            LOGGER.info('===========')
             self._log_if_raised(result, data)
             try:
                 result_json = result.json()
@@ -161,6 +167,9 @@ class BadgrBackend(BadgeBackend):
         )
 
     def _create_assertion(self, badge_class, user, evidence_url):
+        LOGGER.info('===========')
+        LOGGER.info('BADGE ASSERTION')
+        LOGGER.info('===========')
         """
         Register an assertion with the Badgr server for a particular user for a specific class.
         """
@@ -181,14 +190,24 @@ class BadgrBackend(BadgeBackend):
             json=data,
             timeout=settings.BADGR_TIMEOUT
         )
+        LOGGER.info('===========')
+        result = response.json()['result'][0]
+        LOGGER.info('BADGE CREATE ASSERTION RESPONSE: %s', result)
+        LOGGER.info('BADGE CREATE ASSERTION DATA: %s', data)
+        LOGGER.info('===========')
         self._log_if_raised(response, data)
+        LOGGER.info('===========')
+        LOGGER.info('BADGE ASSERTION PROCESS BEGIN')
         assertion, __ = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class)
-        assertion.data = response.json()
+        LOGGER.info('BADGE ASSERTION PROCESS BEGIN 2: %s', assertion)
+        assertion.data = result
         assertion.backend = 'BadgrBackend'
         assertion.image_url = assertion.data['image']
-        assertion.assertion_url = assertion.data['json']['id']
+        assertion.assertion_url = assertion.data['evidence'][0]['url']
         assertion.save()
+        LOGGER.info('BADGE ASSERTION PROCESS OBJ: %s', assertion)
         self._send_assertion_created_event(user, assertion)
+        LOGGER.info('===========')
         return assertion
 
     @staticmethod
@@ -227,6 +246,10 @@ class BadgrBackend(BadgeBackend):
             'username': settings.BADGR_USERNAME,
             'password': settings.BADGR_PASSWORD,
         }
+        LOGGER.info('===========')
+        LOGGER.info('BADGE OTKEN')
+        LOGGER.info('BADGE OTKEN REFRESH TOKEN: %s', refresh_token)
+        LOGGER.info('===========')
         if refresh_token:
             data = {
                 'grant_type': 'refresh_token',
@@ -238,6 +261,13 @@ class BadgrBackend(BadgeBackend):
         response = requests.post(
             oauth_url, data=data, timeout=settings.BADGR_TIMEOUT
         )
+        LOGGER.info('===========')
+        LOGGER.info('BADGE OTKEN 2')
+        LOGGER.info('BADGE OTKEN REFRESH TOKEN: %s', refresh_token)
+        LOGGER.info('BADGE OTKEN REFRESH DATA: %s', data)
+        LOGGER.info('BADGE OTKEN REFRESH OAUTH URL: %s', oauth_url)
+        LOGGER.info('BADGE OTKEN REFRESH RESPONSE: %s', response.json())
+        LOGGER.info('===========')
         self._log_if_raised(response, data)
         try:
             data = response.json()
@@ -299,14 +329,31 @@ class BadgrBackend(BadgeBackend):
         Verify a badge has been created for this badge class, and create it if not.
         """
         slug = badge_class.badgr_server_slug
+        LOGGER.info('===========')
+        LOGGER.info('BADGE SLUG: %s', slug)
+        LOGGER.info('BADGE BADGES: %s', BadgrBackend.badges)
+        LOGGER.info('===========')
         if slug in BadgrBackend.badges:
             return
+        LOGGER.info('===========')
+        LOGGER.info('BADGE RESPONSE GET PROCESS')
+        print(self._badge_url(slug))
+        print(settings.BADGR_TIMEOUT)
+        print(self._get_headers())
+
         response = requests.get(self._badge_url(slug), headers=self._get_headers(), timeout=settings.BADGR_TIMEOUT)
+        print(response)
+        LOGGER.info('BADGE URL: %s', self._badge_url(slug))
+        LOGGER.info('BADGE RESPONSE: %s', response.status_code)
+        LOGGER.info('===========')
         if response.status_code != 200:
             self._create_badge(badge_class)
         BadgrBackend.badges.append(slug)
 
-    def award(self, badge_class, user, evidence_url=None):
+    def award(self, badge_class, user, evidence_url=settings.LMS_ROOT_URL):
+        LOGGER.info('===========')
+        LOGGER.info('BADGE AWARD BACKEND')
+        LOGGER.info('===========')
         """
         Make sure the badge class has been created on the backend, and then award the badge class to the user.
         """

@@ -6,7 +6,9 @@ as enrolling in a certain number, completing a certain number, or completing a s
 
 from lms.djangoapps.badges.models import BadgeClass, CourseEventBadgesConfiguration
 from lms.djangoapps.badges.utils import requires_badges_enabled
+import logging
 
+log = logging.getLogger(__name__)
 
 def award_badge(config, count, user):
     """
@@ -20,16 +22,34 @@ def award_badge(config, count, user):
     Example config:
         {3: 'slug_for_badge_for_three_enrollments', 5: 'slug_for_badge_with_five_enrollments'}
     """
+    log.info('===========')
+    log.info('BADGE COURSE META')
+    log.info('===========')
     slug = config.get(count)
+    log.info('===========')
+    log.info('BADGE config: %s', config)
+    log.info('===========')
+    log.info('===========')
+    log.info('BADGE count: %s', count)
+    log.info('===========')
+    log.info('===========')
+    log.info('BADGE SLUG: %s', slug)
+    log.info('===========')
     if not slug:
         return
     badge_class = BadgeClass.get_badge_class(
         slug=slug, issuing_component='openedx__course', create=False,
     )
+    log.info('===========')
+    log.info('BADGE CLASS: %s', badge_class)
+    log.info('===========')
     if not badge_class:
         return
     if not badge_class.get_for_user(user):
-        badge_class.award(user)
+        log.info('===========')
+        log.info('BADGE CLASS AWARD')
+        log.info('===========')
+        return badge_class.award(user)
 
 
 def award_enrollment_badge(user):
