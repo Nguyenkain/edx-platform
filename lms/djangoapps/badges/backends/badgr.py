@@ -169,15 +169,18 @@ class BadgrBackend(BadgeBackend):
     def _create_assertion(self, badge_class, user, evidence_url):
         LOGGER.info('===========')
         LOGGER.info('BADGE ASSERTION')
+        LOGGER.info('BADGE ASSERTION USER: %s', user)
+        LOGGER.info('BADGE ASSERTION USER STR: %s', str(user))
         LOGGER.info('===========')
         """
         Register an assertion with the Badgr server for a particular user for a specific class.
         """
         data = {
             "recipient": {
-                "identity": user.username,
-                "type": "email"
+                "identity": user.email,
+                "type": "email",
             },
+            "narrative": str(user),
             "evidence": [
                 {
                     "url": evidence_url
@@ -191,8 +194,9 @@ class BadgrBackend(BadgeBackend):
             timeout=settings.BADGR_TIMEOUT
         )
         LOGGER.info('===========')
+        LOGGER.info('BADGE CREATE ASSERTION RESPONSE: %s', response.json())
         result = response.json()['result'][0]
-        LOGGER.info('BADGE CREATE ASSERTION RESPONSE: %s', result)
+        LOGGER.info('BADGE CREATE ASSERTION RESULT: %s', result)
         LOGGER.info('BADGE CREATE ASSERTION DATA: %s', data)
         LOGGER.info('===========')
         self._log_if_raised(response, data)
@@ -359,3 +363,4 @@ class BadgrBackend(BadgeBackend):
         """
         self._ensure_badge_created(badge_class)
         return self._create_assertion(badge_class, user, evidence_url)
+
