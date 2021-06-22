@@ -175,7 +175,7 @@ class BadgrBackend(BadgeBackend):
         """
         data = {
             "recipient": {
-                "identity": user.email,
+                "identity": user.username,
                 "type": "email"
             },
             "evidence": [
