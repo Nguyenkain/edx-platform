@@ -3090,6 +3090,12 @@ INSTALLED_APPS = [
     # in the LMS process at the moment, so anything that has Django admin access
     # permissions needs to be listed as an LMS app or the script will fail.
     'user_tasks',
+
+
+    # 'openedx.core.djangoapps.content_libraries',
+    # 'openedx.core.djangoapps.bookmarks',
+    # 'openedx.core.djangoapps.theming',
+
 ]
 
 ######################### CSRF #########################################
@@ -3390,13 +3396,6 @@ CERT_NAME_LONG = "Certificate of Achievement"
 # .. setting_warning: Review FEATURES['ENABLE_OPENBADGES'] for further context.
 BADGING_BACKEND = 'lms.djangoapps.badges.backends.badgr.BadgrBackend'
 
-# .. setting_name: BADGR_API_TOKEN
-# .. setting_default: None
-# .. setting_description: The API token string for Badgr. You should be able to create this via Badgr's settings. See
-#    https://github.com/concentricsky/badgr-server for details on setting up Badgr.
-# .. setting_warning: Review FEATURES['ENABLE_OPENBADGES'] for further context.
-BADGR_API_TOKEN = None
-
 # .. setting_name: BADGR_BASE_URL
 # .. setting_default: 'http://localhost:8005'
 # .. setting_description: The base URL for the Badgr server.
@@ -3410,6 +3409,29 @@ BADGR_BASE_URL = "http://localhost:8005"
 #    http://exampleserver.com/issuer/test-issuer, the issuer slug is "test-issuer".
 # .. setting_warning: Review FEATURES['ENABLE_OPENBADGES'] for further context.
 BADGR_ISSUER_SLUG = "example-issuer"
+
+# .. setting_name: BADGR_USERNAME
+# .. setting_default: None
+# .. setting_description: The username for Badgr. You should set up an issuer application with Badgr
+#    (https://badgr.org/app-developers/). The username and password will then be used to create or renew
+#    OAuth2 tokens.
+# .. setting_warning: Review FEATURES['ENABLE_OPENBADGES'] for further context.
+BADGR_USERNAME = None
+
+# .. setting_name: BADGR_PASSWORD
+# .. setting_default: None
+# .. setting_description: The password for Badgr. You should set up an issuer application with Badgr
+#    (https://badgr.org/app-developers/). The username and password will then be used to create or renew
+#    OAuth2 tokens.
+# .. setting_warning: Review FEATURES['ENABLE_OPENBADGES'] for further context.
+BADGR_PASSWORD = None
+
+# .. setting_name: BADGR_TOKENS_CACHE_KEY
+# .. setting_default: None
+# .. setting_description: The cache key for Badgr API tokens. Once created, the tokens will be stored in cache.
+#    Define the key here for setting and retrieveing the tokens.
+# .. setting_warning: Review FEATURES['ENABLE_OPENBADGES'] for further context.
+BADGR_TOKENS_CACHE_KEY = None
 
 # .. setting_name: BADGR_TIMEOUT
 # .. setting_default: 10

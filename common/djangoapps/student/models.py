@@ -1555,6 +1555,7 @@ class CourseEnrollment(models.Model):
 
         Also emits relevant events for analytics purposes.
         """
+        log.warning("=============ENROLL======================")
         if mode is None:
             mode = _default_course_mode(str(course_key))
         # All the server-side checks for whether a user is allowed to enroll.
@@ -1815,6 +1816,11 @@ class CourseEnrollment(models.Model):
             cache.set(cache_key, status_hash, None)
 
         return status_hash
+
+    @staticmethod
+    def get_date_last_enrollment_for_user(enroll):
+        history_last = enroll.history.all().first().history_date
+        return history_last.date()
 
     def is_paid_course(self):
         """
