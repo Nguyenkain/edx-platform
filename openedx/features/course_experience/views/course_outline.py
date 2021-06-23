@@ -63,9 +63,12 @@ class CourseOutlineFragmentView(EdxFragmentView):
         course_block_tree = get_course_outline_block_tree(
             request, course_id, request.user if user_is_enrolled else None
         )
-        course_block_tree_length = len(course_block_tree['children'])
 
         if course.plan_release in (2, 1) and course.self_paced == True:
+            if 'children' in course_block_tree:
+                course_block_tree_length = len(course_block_tree['children'])
+            else:
+                course_block_tree_length = 0
             logging.info("Course %s has release", course_key)
             last = set_up_plan_release(course_key, request.user, course.plan_release)
             logging.info(last)
