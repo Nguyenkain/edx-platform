@@ -826,4 +826,19 @@ def student_dashboard(request):  # lint-amnesty, pylint: disable=too-many-statem
         'resume_button_urls': resume_button_urls
     })
 
+    import requests
+    import json
+    url = "https://h5p.newwave.vn/leaderboard/list-badgr"
+
+    headers = {
+        'Content-Type': "application/x-www-form-urlencoded",
+        'cache-control': "no-cache"
+    }
+    response = requests.request("GET", url, data='', headers=headers)
+    listBadgr = response.json()
+    # pprint(listBadgr.content)
+    context.update({
+        'listBadgr': listBadgr,
+    })
+
     return render_to_response('dashboard.html', context)
