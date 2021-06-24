@@ -828,7 +828,7 @@ def student_dashboard(request):  # lint-amnesty, pylint: disable=too-many-statem
 
     import requests
     import json
-    url = "https://h5p.newwave.vn/leaderboard/list-badgr"
+    url = settings.H5P_URL + "leaderboard/list-badgr"
 
     headers = {
         'Content-Type': "application/x-www-form-urlencoded",
