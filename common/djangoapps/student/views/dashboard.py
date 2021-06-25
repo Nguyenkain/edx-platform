@@ -828,7 +828,7 @@ def student_dashboard(request):  # lint-amnesty, pylint: disable=too-many-statem
 
     import requests
     import json
-    url = settings.H5P_URL + "leaderboard/list-badgr"
+    url = url = settings.FEATURES.get('H5P_HOST', '') + "/leaderboard/list-badgr"
 
     headers = {
         'Content-Type': "application/x-www-form-urlencoded",
