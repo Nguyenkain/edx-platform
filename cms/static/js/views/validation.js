@@ -173,3 +173,15 @@ define(['edx-ui-toolkit/js/utils/html-utils',
 
         return ValidatingView;
     }); // end define()
+
+$(document).ready(function(){
+    $(".group-settings.pacing:first").find("input[type='radio']").click(function() {
+        let inputValue = $(this).attr("value");
+        if (inputValue == 'true') {
+            $(".group-settings.pacing:last").show();
+        }
+        else if (inputValue == 'false') {
+            $(".group-settings.pacing:last").hide();
+        }
+    })
+});
