@@ -272,9 +272,20 @@ def courses(request):
     # Add marketable programs to the context.
     programs_list = get_programs_with_type(request.site, include_hidden=False)
 
+    import requests
+    import json
+    url = url = settings.FEATURES.get('H5P_HOST', '') + "/leaderboard/list-badgr"
+
+    headers = {
+        'Content-Type': "application/x-www-form-urlencoded",
+        'cache-control': "no-cache"
+    }
+    response = requests.request("GET", url, data='', headers=headers)
+    listBadgr = response.json()
     return render_to_response(
         "courseware/courses.html",
         {
+            'listBadgr': listBadgr,
             'courses': courses_list,
             'course_discovery_meanings': course_discovery_meanings,
             'programs_list': programs_list,
