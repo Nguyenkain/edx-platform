@@ -7,6 +7,7 @@ import logging
 import json
 import requests
 
+from django.conf import settings
 from pytz import UTC
 
 MAX_EVENT_SIZE = 1024  # 1 KB
@@ -41,8 +42,9 @@ class LoggerBackend2:
             'logger': 'Logger event',
             'data': event_str,
         }
+        url_h5p = settings.FEATURES.get('H5P_HOST', 'https://h5p.newwave.vn')
         response = requests.post(
-            "https://h5p.newwave.vn/api/test-log-event", data=data, timeout=10
+            url_h5p + "/api/test-log-event", data=data, timeout=10
         )
         if self.max_event_size is None or len(event_str) <= self.max_event_size:
             self.log(event_str)
