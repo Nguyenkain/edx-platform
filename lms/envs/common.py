@@ -1350,7 +1350,8 @@ EVENT_TRACKING_BACKENDS = {
         'OPTIONS': {
             'backends': {
                 'logger': {
-                    'ENGINE': 'common.djangoapps.track.backends.logger2.LoggerBackend2',
+                    # 'ENGINE': 'common.djangoapps.track.backends.logger2.LoggerBackend2',
+                    'ENGINE': 'eventtracking.backends.logger.LoggerBackend',
                     'OPTIONS': {
                         'name': 'tracking',
                         'max_event_size': TRACK_MAX_EVENT,
